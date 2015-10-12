@@ -17,7 +17,8 @@
 <meta property="og:url" content="http://syzhang15.com/2015/10/08/intro_to_markdown/index.html">
 <meta property="og:site_name" content="nefelibata's blog">
 <meta property="og:description" content="markdown是一种电子邮件风格的标记语言，本文简单介绍一下它的用法。">
-<meta property="og:updated_time" content="2015-10-12T10:04:39.384Z">
+<meta property="og:image" content="http://news.xinhuanet.com/tw/2008-03/25/xin_412030525160179626381.jpg">
+<meta property="og:updated_time" content="2015-10-12T14:10:36.933Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="markdown tips总结">
 <meta name="twitter:description" content="markdown是一种电子邮件风格的标记语言，本文简单介绍一下它的用法。">
@@ -26,11 +27,11 @@
     <link rel="alternative" href="/atom.xml" title="nefelibata&#39;s blog" type="application/atom+xml">
     
     
-    <link rel="icon" href="/img/favicon.ico">
+    <link rel="icon" href="/img/32.ico">
     
     
-    <link rel="apple-touch-icon" href="/img/jacman.jpg">
-    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon" href="/img/04.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/04.jpg">
     
     <link rel="stylesheet" href="/css/style.css" type="text/css">
 </head>
@@ -105,15 +106,23 @@
 <h2 id="标题">标题</h2><p>Markdown 中，标题只需要在文本前面加上<code>#</code>即可。同理，你还可以增加二级标题、三级标题、四级标题、五级标题和六级标题，总共六级，只需要增加<code>#</code>即可，标题字号相应降低。</p>
 <figure class="highlight vala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">## 二级标题</span></span><br><span class="line"><span class="preprocessor">### 三级标题</span></span><br><span class="line"><span class="preprocessor">#### 四级标题</span></span><br><span class="line"><span class="preprocessor">##### 五级标题</span></span><br><span class="line"><span class="preprocessor">###### 六级标题</span></span><br></pre></td></tr></table></figure>
 <hr>
-<h2 id="粗体和斜体">粗体和斜体</h2><p><strong>加粗</strong>是通过 <code>**加粗**</code> 来实现；<em>斜体</em>是通过 <code>*斜体*</code> 来实现。</p>
+<h2 id="粗体和斜体">粗体和斜体</h2><p><strong>加粗</strong>是通过 <code>**加粗**</code> 来实现。</p>
+<p> <em>斜体</em> 是通过 <code>*斜体*</code> 来实现。</p>
 <hr>
-<h2 id="链接">链接</h2><p>字体链接如<a href="http://syzhang15.com">my blog</a>格式:</p>
+<h2 id="链接">链接</h2><p>字体链接如 <a href="http://syzhang15.com">my blog</a> 格式:</p>
 <figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[<span class="link_label">my blog</span>](<span class="link_url">http://syzhang15.com</span>)</span><br></pre></td></tr></table></figure>
 <hr>
 <h2 id="图片">图片</h2><p>图片插入和字体链接类似，前面加<code>!</code>，如:</p>
+<p><img src="http://news.xinhuanet.com/tw/2008-03/25/xin_412030525160179626381.jpg" alt="一张熊猫的图片">`。</p>
 <figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">![<span class="link_label">一张熊猫的图片</span>](<span class="link_url">http://news.xinhuanet.com/tw/2008-03/25/xin_412030525160179626381.jpg</span>)`。</span><br></pre></td></tr></table></figure>
 <hr>
 <h2 id="列表">列表</h2><p>只需要在列表的每一项前面加<code>*</code>号，<code>*</code>号和文字之间注意要留空格：</p>
+<p>我接下来要做的事情：</p>
+<ul>
+<li>吃饭</li>
+<li>睡觉</li>
+<li>揍胖子</li>
+</ul>
 <figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">我接下来要做的事情：</span><br><span class="line"><span class="bullet">* </span>吃饭</span><br><span class="line"><span class="bullet">* </span>睡觉</span><br><span class="line"><span class="bullet">* </span>揍胖子</span><br></pre></td></tr></table></figure>
 <p>如果想要有数字序号的列表，只要把<code>*</code>改成相应的<code>1.</code>，<code>2.</code>等就好了，注意数字后面要有<code>.</code>。</p>
 <ol>
@@ -169,6 +178,7 @@
 <p>一些推荐：</p>
 <p>可以在线练习markdown的网站<a href="http://jianshu.com" target="_blank" rel="external">简书</a></p>
 <p>一篇很详细的教程<a href="http://wowubuntu.com/markdown" target="_blank" rel="external">Ubuntu-markdown</a></p>
+<hr>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -250,7 +260,7 @@
         
           <li>
             
-            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            	<a href="https://ustc.edu.cn" target="_blank" title=" 中科大">ustc</a>
             
           </li>
         
