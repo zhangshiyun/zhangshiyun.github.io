@@ -88,6 +88,19 @@
 
   <section class="post" itemscope itemprop="blogPost">
   
+    <a href="/2015/10/22/intro_to_reservoir_computing/" title="reservoir computing在时间序列处理中的应用" itemprop="url">
+  
+
+    <time datetime="2015-10-22T11:58:05.000Z" itemprop="datePublished">2015-10-22</time>
+
+
+    <h1 itemprop="name">reservoir computing在时间序列处理中的应用</h1>
+
+  </a>
+</section>
+
+  <section class="post" itemscope itemprop="blogPost">
+  
     <a href="/2015/10/08/intro_to_markdown/" title="markdown tips总结" itemprop="url">
   
 
@@ -95,19 +108,6 @@
 
 
     <h1 itemprop="name">markdown tips总结</h1>
-
-  </a>
-</section>
-
-  <section class="post" itemscope itemprop="blogPost">
-  
-    <a href="/2015/10/05/hello-world/" title="Hello World" itemprop="url">
-  
-
-    <time datetime="2015-10-05T11:33:04.954Z" itemprop="datePublished">2015-10-05</time>
-
-
-    <h1 itemprop="name">Hello World</h1>
 
   </a>
 </section>
@@ -266,6 +266,35 @@ document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3
 
 <!-- MathJax Begin -->
 <!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
 
 
 <!-- MathJax End -->

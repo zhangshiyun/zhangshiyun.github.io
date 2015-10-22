@@ -4,26 +4,23 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>Hello World | nefelibata&#39;s blog</title>
+    <title>reservoir computing在时间序列处理中的应用 | nefelibata&#39;s blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="Shiyun Zhang">
     
 
     
-    <meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
+    <meta name="description" content="这是我大研的课题，reservoir computing（水库算法）在时间序列处理中的应用。使用ESN和LSM这两个模型进行时间序列的拟合，并在接下来的部分使用LIBSVM进行分类。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="http://syzhang15.com/2015/10/05/hello-world/index.html">
+<meta property="og:title" content="reservoir computing在时间序列处理中的应用">
+<meta property="og:url" content="http://syzhang15.com/2015/10/22/intro_to_reservoir_computing/index.html">
 <meta property="og:site_name" content="nefelibata's blog">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
-<meta property="og:updated_time" content="2015-10-05T11:33:04.954Z">
+<meta property="og:description" content="这是我大研的课题，reservoir computing（水库算法）在时间序列处理中的应用。使用ESN和LSM这两个模型进行时间序列的拟合，并在接下来的部分使用LIBSVM进行分类。">
+<meta property="og:updated_time" content="2015-10-22T14:00:55.615Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hello World">
-<meta name="twitter:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
+<meta name="twitter:title" content="reservoir computing在时间序列处理中的应用">
+<meta name="twitter:description" content="这是我大研的课题，reservoir computing（水库算法）在时间序列处理中的应用。使用ESN和LSM这两个模型进行时间序列的拟合，并在接下来的部分使用LIBSVM进行分类。">
 
     
     <link rel="alternative" href="/atom.xml" title="nefelibata&#39;s blog" type="application/atom+xml">
@@ -83,14 +80,14 @@ Quick">
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2015/10/05/hello-world/" title="Hello World" itemprop="url">Hello World</a>
+      <a href="/2015/10/22/intro_to_reservoir_computing/" title="reservoir computing在时间序列处理中的应用" itemprop="url">reservoir computing在时间序列处理中的应用</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="Shiyun Zhang" target="_blank" itemprop="author">Shiyun Zhang</a>
 		
   <p class="article-time">
-    <time datetime="2015-10-05T11:33:04.954Z" itemprop="datePublished"> 发表于 2015-10-05</time>
+    <time datetime="2015-10-22T11:58:05.000Z" itemprop="datePublished"> 发表于 2015-10-22</time>
     
   </p>
 </header>
@@ -99,24 +96,29 @@ Quick">
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Quick_Start"><span class="toc-number">1.</span> <span class="toc-text">Quick Start</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Create_a_new_post"><span class="toc-number">1.1.</span> <span class="toc-text">Create a new post</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Run_server"><span class="toc-number">1.2.</span> <span class="toc-text">Run server</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Generate_static_files"><span class="toc-number">1.3.</span> <span class="toc-text">Generate static files</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Deploy_to_remote_sites"><span class="toc-number">1.4.</span> <span class="toc-text">Deploy to remote sites</span></a></li></ol></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#reservoir_computing（ESN_&_LSM）"><span class="toc-number">1.</span> <span class="toc-text">reservoir computing（ESN & LSM）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ESN（echo_state_network）"><span class="toc-number">1.1.</span> <span class="toc-text">ESN（echo state network）</span></a></li></ol></li></ol>
 		
 		</div>
 		
-		<p>Welcome to <a href="http://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="http://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="http://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick_Start">Quick Start</h2><h3 id="Create_a_new_post">Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run_server">Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate_static_files">Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy_to_remote_sites">Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+		<p>应用<code>ESN</code>（echo state network）在时间序列处理上，已经由 <a href="http://dsxt.ustc.edu.cn/zj_js.asp?zzid=3742" target="_blank" rel="external">陈欢欢教授</a>在2013年完成，详见 <a href="http://staff.ustc.edu.cn/~hchen/papers/KDD2013.pdf" target="_blank" rel="external">Model-based Kernel for Efficient Time Series Analysis</a> 。而我要做的是用<code>LSM</code>（liquid state machine）替代<code>ESN</code>看一下实验结果，这个工作实际上我的两位师兄洪骏远和李阳已经完成了，我只是在他们的指导下将这个过程重复一下。<br>这对我来说是一个很棒的学习经历，感谢两位师兄。</p>
+<h2 id="reservoir_computing（ESN_&amp;_LSM）">reservoir computing（ESN &amp; LSM）</h2><p>reservoir computing类似循环神经网络（RNN, recurrent neural networks）机理，它是一种有监督学习的算法。输入信号传输到一个随机的动态系统（即水库reservoir），在里面映射到高维空间，然后我们训练一种readout模式，将水库中的高维状态映射到目标输出。对于不同的输入我们需要调整的只是这种readout模式，而且貌似这个模型的计算能力很强。<br>ESN和LSM是reservoir computing最典型的两种模型,区别主要是水库内部单元的不同。</p>
+<h3 id="ESN（echo_state_network）">ESN（echo state network）</h3><p>形象但不准确的理解<code>ESN</code>，可以认为我们有一个种子（raw input data），但并不能了解它更多的信息，我们把它种下去（feed into the reservoir）,让它生根发芽，知道它是什么种子叶子什么形状颜色开不开花（maped into a higher dimension），通过这些特征我们通过简单的判断机制判别出我们想要的种子（a readout mechanism），上述的行为相当于一个训练集（train set），接下来我们再遇见这些种子，就可以通过这种模式依据我们的训练集结果对种子进行处理（test set）。</p>
+<p>当然这只是直观的理解，<code>ESN</code>是有数学上的推导与证明的。在下面的介绍中，N是水库单元数（reservoir），K是输入信号数（inputs），L是输出信号数（outputs）。</p>
+<figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(<span class="number">1</span>) x(n+<span class="number">1</span>) = f(W*x(n) + <span class="variable">$W</span><span class="number">_</span>&#123;in&#125;$*u(n+<span class="number">1</span>) + <span class="variable">$W</span><span class="number">_</span>&#123;fb&#125;$*y(n))</span><br></pre></td></tr></table></figure>
+<p>其中<code>x(n)</code>是N维水库空间的内部状态；<code>f</code>是一种激励函数，在ESN里是sigmoid；<code>W</code>是N$\times$N维水库矩阵；<code>$W_{in}$</code>是N$\times$K维输入矩阵；<code>u(n)</code>是K维输入信号；<code>W_{fb}$</code>是N$\times$L维输出反馈矩阵；<code>y(n)</code>是L维输出信号；一般情况下用<code>z(n) = [x(n);u(n)]</code>表示广义内部状态。</p>
+<p>输出<code>y(n)</code>通过下面公式(2)获得：</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(<span class="number">2</span>) <span class="function"><span class="title">y</span><span class="params">(n)</span></span> = <span class="function"><span class="title">g</span><span class="params">(<span class="variable">$W_</span>&#123;out&#125;$*z(n)</span></span>)</span><br></pre></td></tr></table></figure>
+<p>其中<code>g</code>是一种激励函数；<code>W_{out}$</code>是L$\times$(K + N)维的输出矩阵。</p>
   
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
 
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/ESN/">ESN</a><a href="/tags/LSM/">LSM</a><a href="/tags/Machine-Learning/">Machine Learning</a><a href="/tags/Reservoir-Computing/">Reservoir Computing</a>
+  </div>
 
 </div>
 
@@ -124,7 +126,7 @@ Quick">
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://syzhang15.com/2015/10/05/hello-world/" data-title="Hello World | nefelibata&#39;s blog" data-tsina="3224061975" class="share clearfix">
+	  <div data-url="http://syzhang15.com/2015/10/22/intro_to_reservoir_computing/" data-title="reservoir computing在时间序列处理中的应用 | nefelibata&#39;s blog" data-tsina="3224061975" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -137,14 +139,14 @@ Quick">
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2015/10/08/intro_to_markdown/" title="markdown tips总结">
-  <strong>上一篇：</strong><br/>
-  <span>
-  markdown tips总结</span>
+
+<div class="next">
+<a href="/2015/10/08/intro_to_markdown/"  title="markdown tips总结">
+ <strong>下一篇：</strong><br/> 
+ <span>markdown tips总结
+</span>
 </a>
 </div>
-
 
 </nav>
 
@@ -156,7 +158,7 @@ Quick">
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Quick_Start"><span class="toc-number">1.</span> <span class="toc-text">Quick Start</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Create_a_new_post"><span class="toc-number">1.1.</span> <span class="toc-text">Create a new post</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Run_server"><span class="toc-number">1.2.</span> <span class="toc-text">Run server</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Generate_static_files"><span class="toc-number">1.3.</span> <span class="toc-text">Generate static files</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Deploy_to_remote_sites"><span class="toc-number">1.4.</span> <span class="toc-text">Deploy to remote sites</span></a></li></ol></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#reservoir_computing（ESN_&_LSM）"><span class="toc-number">1.</span> <span class="toc-text">reservoir computing（ESN & LSM）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ESN（echo_state_network）"><span class="toc-number">1.1.</span> <span class="toc-text">ESN（echo state network）</span></a></li></ol></li></ol>
  
   </div>
 
@@ -173,6 +175,22 @@ Quick">
 <div class="tagslist">
 	<p class="asidetitle">标签</p>
 		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Machine-Learning/" title="Machine Learning">Machine Learning<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ESN/" title="ESN">ESN<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/LSM/" title="LSM">LSM<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Reservoir-Computing/" title="Reservoir Computing">Reservoir Computing<sup>1</sup></a></li>
+			
 		
 			
 				<li><a href="/tags/markdown/" title="markdown">markdown<sup>1</sup></a></li>
@@ -443,6 +461,35 @@ document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3
 
 <!-- MathJax Begin -->
 <!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
 
 
 <!-- MathJax End -->

@@ -78,15 +78,15 @@
   
 <section class="post" itemscope itemprop="blogitem">
   
-    <a href="/2015/10/08/intro_to_markdown/" title="markdown tips总结" itemprop="url">
+    <a href="/2015/10/22/intro_to_reservoir_computing/" title="reservoir computing在时间序列处理中的应用" itemprop="url">
   
-    <h1 itemprop="name">markdown tips总结</h1>
+    <h1 itemprop="name">reservoir computing在时间序列处理中的应用</h1>
     
      
-      <p itemprop="description" >markdown是一种电子邮件风格的标记语言，本文简单介绍一下它的用法。</p>
+      <p itemprop="description" >这是我大研的课题，reservoir computing（水库算法）在时间序列处理中的应用。使用ESN和LSM这两个模型进行时间序列的拟合，并在接下来的部分使用LIBSVM进行分类。</p>
       
     
-    <time datetime="2015-10-08T12:35:12.000Z" itemprop="datePublished">2015-10-08</time>
+    <time datetime="2015-10-22T11:58:05.000Z" itemprop="datePublished">2015-10-22</time>
   </a>
 </section>
 
@@ -98,15 +98,15 @@
   
 <section class="post" itemscope itemprop="blogitem">
   
-    <a href="/2015/10/05/hello-world/" title="Hello World" itemprop="url">
+    <a href="/2015/10/08/intro_to_markdown/" title="markdown tips总结" itemprop="url">
   
-    <h1 itemprop="name">Hello World</h1>
+    <h1 itemprop="name">markdown tips总结</h1>
     
      
-           <p itemprop="description" >Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the </p>
-        
+      <p itemprop="description" >markdown是一种电子邮件风格的标记语言，本文简单介绍一下它的用法。</p>
+      
     
-    <time datetime="2015-10-05T11:33:04.954Z" itemprop="datePublished">2015-10-05</time>
+    <time datetime="2015-10-08T12:35:12.000Z" itemprop="datePublished">2015-10-08</time>
   </a>
 </section>
 
@@ -132,6 +132,22 @@
 <div class="tagslist">
 	<p class="asidetitle">标签</p>
 		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Machine-Learning/" title="Machine Learning">Machine Learning<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ESN/" title="ESN">ESN<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/LSM/" title="LSM">LSM<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Reservoir-Computing/" title="Reservoir Computing">Reservoir Computing<sup>1</sup></a></li>
+			
 		
 			
 				<li><a href="/tags/markdown/" title="markdown">markdown<sup>1</sup></a></li>
@@ -325,6 +341,35 @@ document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3
 
 <!-- MathJax Begin -->
 <!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
 
 
 <!-- MathJax End -->
