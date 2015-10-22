@@ -4,24 +4,23 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>markdown tips总结 | nefelibata&#39;s blog</title>
+    <title>Reservoir Computing for Time Series | nefelibata&#39;s blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="Shiyun Zhang">
     
 
     
-    <meta name="description" content="markdown是一种电子邮件风格的标记语言，本文简单介绍一下它的用法。">
+    <meta name="description" content="这是我大研的课题，reservoir computing（水库算法）在时间序列处理中的应用。使用ESN和LSM这两个模型进行时间序列的拟合，并在接下来的部分使用LIBSVM进行分类。第一部分是介绍ESN与LSM两种Reservoir Computing的模型。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="markdown tips总结">
-<meta property="og:url" content="http://syzhang15.com/2015/10/08/intro_to_markdown/index.html">
+<meta property="og:title" content="Reservoir Computing for Time Series">
+<meta property="og:url" content="http://syzhang15.com/2015/10/22/intro_to_reservoir_computing/index.html">
 <meta property="og:site_name" content="nefelibata's blog">
-<meta property="og:description" content="markdown是一种电子邮件风格的标记语言，本文简单介绍一下它的用法。">
-<meta property="og:image" content="http://news.xinhuanet.com/tw/2008-03/25/xin_412030525160179626381.jpg">
-<meta property="og:updated_time" content="2015-10-13T09:08:01.813Z">
+<meta property="og:description" content="这是我大研的课题，reservoir computing（水库算法）在时间序列处理中的应用。使用ESN和LSM这两个模型进行时间序列的拟合，并在接下来的部分使用LIBSVM进行分类。第一部分是介绍ESN与LSM两种Reservoir Computing的模型。">
+<meta property="og:updated_time" content="2015-10-22T14:23:13.910Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="markdown tips总结">
-<meta name="twitter:description" content="markdown是一种电子邮件风格的标记语言，本文简单介绍一下它的用法。">
+<meta name="twitter:title" content="Reservoir Computing for Time Series">
+<meta name="twitter:description" content="这是我大研的课题，reservoir computing（水库算法）在时间序列处理中的应用。使用ESN和LSM这两个模型进行时间序列的拟合，并在接下来的部分使用LIBSVM进行分类。第一部分是介绍ESN与LSM两种Reservoir Computing的模型。">
 
     
     <link rel="alternative" href="/atom.xml" title="nefelibata&#39;s blog" type="application/atom+xml">
@@ -81,14 +80,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2015/10/08/intro_to_markdown/" title="markdown tips总结" itemprop="url">markdown tips总结</a>
+      <a href="/2015/10/22/intro_to_reservoir_computing/" title="Reservoir Computing for Time Series" itemprop="url">Reservoir Computing for Time Series</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="Shiyun Zhang" target="_blank" itemprop="author">Shiyun Zhang</a>
 		
   <p class="article-time">
-    <time datetime="2015-10-08T12:35:12.000Z" itemprop="datePublished"> 发表于 2015-10-08</time>
+    <time datetime="2015-10-22T11:58:05.000Z" itemprop="datePublished"> 发表于 2015-10-22</time>
     
   </p>
 </header>
@@ -97,87 +96,19 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#标题"><span class="toc-number">1.</span> <span class="toc-text">标题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#粗体和斜体"><span class="toc-number">2.</span> <span class="toc-text">粗体和斜体</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#链接"><span class="toc-number">3.</span> <span class="toc-text">链接</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#图片"><span class="toc-number">4.</span> <span class="toc-text">图片</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#列表"><span class="toc-number">5.</span> <span class="toc-text">列表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#引用"><span class="toc-number">6.</span> <span class="toc-text">引用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#表格"><span class="toc-number">7.</span> <span class="toc-text">表格</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Reservoir_Computing（ESN_&_LSM）"><span class="toc-number">1.</span> <span class="toc-text">Reservoir Computing（ESN & LSM）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ESN（echo_state_network）"><span class="toc-number">1.1.</span> <span class="toc-text">ESN（echo state network）</span></a></li></ol></li></ol>
 		
 		</div>
 		
-		<p>我搭建个人博客所用的Hexo，支持使用markdown写作，google了解了一下，觉得是一个很好用也很简单的标记语言，看了几篇教程，整理一下。</p>
-<hr>
-<h2 id="标题">标题</h2><p>Markdown 中，标题只需要在文本前面加上<code>#</code>即可。同理，你还可以增加二级标题、三级标题、四级标题、五级标题和六级标题，总共六级，只需要增加<code>#</code>即可，标题字号相应降低。</p>
-<figure class="highlight vala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">## 二级标题</span></span><br><span class="line"><span class="preprocessor">### 三级标题</span></span><br><span class="line"><span class="preprocessor">#### 四级标题</span></span><br><span class="line"><span class="preprocessor">##### 五级标题</span></span><br><span class="line"><span class="preprocessor">###### 六级标题</span></span><br></pre></td></tr></table></figure>
-<hr>
-<h2 id="粗体和斜体">粗体和斜体</h2><p><strong>加粗</strong>是通过 <code>**加粗**</code> 来实现。</p>
-<p> <em>斜体</em> 是通过 <code>*斜体*</code> 来实现。</p>
-<hr>
-<h2 id="链接">链接</h2><p>字体链接如 <a href="http://syzhang15.com">my blog</a> 格式:</p>
-<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[<span class="link_label">my blog</span>](<span class="link_url">http://syzhang15.com</span>)</span><br></pre></td></tr></table></figure>
-<hr>
-<h2 id="图片">图片</h2><p>图片插入和字体链接类似，前面加<code>!</code>，如:</p>
-<p><img src="http://news.xinhuanet.com/tw/2008-03/25/xin_412030525160179626381.jpg" alt="一张熊猫的图片">`。</p>
-<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">![<span class="link_label">一张熊猫的图片</span>](<span class="link_url">http://news.xinhuanet.com/tw/2008-03/25/xin_412030525160179626381.jpg</span>)`。</span><br></pre></td></tr></table></figure>
-<hr>
-<h2 id="列表">列表</h2><p>只需要在列表的每一项前面加<code>*</code>号，<code>*</code>号和文字之间注意要留空格：</p>
-<p>我接下来要做的事情：</p>
-<ul>
-<li>吃饭</li>
-<li>睡觉</li>
-<li>揍胖子</li>
-</ul>
-<figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">我接下来要做的事情：</span><br><span class="line"><span class="bullet">* </span>吃饭</span><br><span class="line"><span class="bullet">* </span>睡觉</span><br><span class="line"><span class="bullet">* </span>揍胖子</span><br></pre></td></tr></table></figure>
-<p>如果想要有数字序号的列表，只要把<code>*</code>改成相应的<code>1.</code>，<code>2.</code>等就好了，注意数字后面要有<code>.</code>。</p>
-<ol>
-<li>第一节</li>
-</ol>
-<ul>
-<li>第二节(你不用敲 “2”，自动就有了）<ul>
-<li>第一小节（推荐每层次缩进四个空格）<ul>
-<li>小小节 1</li>
-<li>小小节 2</li>
-</ul>
-</li>
-<li>第二小节</li>
-</ul>
-</li>
-</ul>
-<hr>
-<h2 id="引用">引用</h2><p>有时想要引用别人的一段话，只要在引用的文字前加<code>&gt;</code>，连续多行添加<code>&gt;</code>了的文字，将变成一个引用的区块。比如这样写：</p>
-<p>Albert Einstein:</p>
-<blockquote>
-<p>A person who never made a mistake never tried anything new.<br>Everything should be made as simple as possible, but not simpler.</p>
-</blockquote>
-<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Albert Einstein:</span><br><span class="line">&gt; A person who never made <span class="operator">a</span> mistake never tried anything <span class="built_in">new</span>.</span><br><span class="line">&gt; Everything should be made <span class="keyword">as</span> simple <span class="keyword">as</span> possible, but <span class="operator">not</span> simpler.</span><br></pre></td></tr></table></figure>
-<hr>
-<h2 id="表格">表格</h2><table>
-<thead>
-<tr>
-<th>Tables</th>
-<th style="text-align:center">Are</th>
-<th style="text-align:right">Cool</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>col 3 is</td>
-<td style="text-align:center">right-aligned</td>
-<td style="text-align:right">$1600</td>
-</tr>
-<tr>
-<td>col 2 is</td>
-<td style="text-align:center">centered</td>
-<td style="text-align:right">$12</td>
-</tr>
-<tr>
-<td>zebra stripes</td>
-<td style="text-align:center">are neat</td>
-<td style="text-align:right">$1</td>
-</tr>
-</tbody>
-</table>
-<figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">|<span class="string"> Tables        </span>|<span class="string"> Are           </span>|<span class="string"> Cool  </span>|</span><br><span class="line">|<span class="string"> ------------- </span>|<span class="string">:-------------:</span>|<span class="string"> -----:</span>|</span><br><span class="line">|<span class="string"> col 3 is      </span>|<span class="string"> right-aligned </span>|<span class="string"> $1600 </span>|</span><br><span class="line">|<span class="string"> col 2 is      </span>|<span class="string"> centered      </span>|<span class="string">   $12 </span>|</span><br><span class="line">|<span class="string"> zebra stripes </span>|<span class="string"> are neat      </span>|<span class="string">    $1 </span>|</span><br></pre></td></tr></table></figure>
-<hr>
-<p>一些推荐：</p>
-<p>可以在线练习markdown的网站： <a href="http://jianshu.com" target="_blank" rel="external">简书</a></p>
-<p>一篇很详细的教程： <a href="http://wowubuntu.com/markdown" target="_blank" rel="external">Ubuntu-markdown</a></p>
+		<p>应用<code>ESN</code>（echo state network）在时间序列处理上，已经由 <a href="http://dsxt.ustc.edu.cn/zj_js.asp?zzid=3742" target="_blank" rel="external">陈欢欢教授</a>在2013年完成，详见 <a href="http://staff.ustc.edu.cn/~hchen/papers/KDD2013.pdf" target="_blank" rel="external">Model-based Kernel for Efficient Time Series Analysis</a> 。而我要做的是用<code>LSM</code>（liquid state machine）替代<code>ESN</code>看一下实验结果，这个工作实际上我的两位师兄洪骏远和李阳已经完成了，我只是在他们的指导下将这个过程重复一下。<br>这对我来说是一个很棒的学习经历，感谢两位师兄。</p>
+<h2 id="Reservoir_Computing（ESN_&amp;_LSM）">Reservoir Computing（ESN &amp; LSM）</h2><p>Reservoir Computing类似循环神经网络（RNN, recurrent neural networks）机理，它是一种有监督学习的算法。输入信号传输到一个随机的动态系统（即水库reservoir），在里面映射到高维空间，然后我们训练一种readout模式，将水库中的高维状态映射到目标输出。对于不同的输入我们需要调整的只是这种readout模式，而且貌似这个模型的计算能力很强。<br>ESN和LSM是reservoir computing最典型的两种模型,区别主要是水库内部单元的不同。</p>
+<h3 id="ESN（echo_state_network）">ESN（echo state network）</h3><p>形象但不准确的理解<code>ESN</code>，可以认为我们有一个种子（raw input data），但并不能了解它更多的信息，我们把它种下去（feed into the reservoir）,让它生根发芽，知道它是什么种子叶子什么形状颜色开不开花（maped into a higher dimension），通过这些特征我们通过简单的判断机制判别出我们想要的种子（a readout mechanism），上述的行为相当于一个训练集（train set），接下来我们再遇见这些种子，就可以通过这种模式依据我们的训练集结果对种子进行处理（test set）。</p>
+<p>当然这只是直观的理解，<code>ESN</code>是有数学上的推导与证明的。在下面的介绍中，N是水库单元数（reservoir），K是输入信号数（inputs），L是输出信号数（outputs）。</p>
+<figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(<span class="number">1</span>) x(n+<span class="number">1</span>) = f(W*x(n) + <span class="variable">$W</span>\<span class="number">_</span>&#123;in&#125;$*u(n+<span class="number">1</span>) + <span class="variable">$W</span>\<span class="number">_</span>&#123;fb&#125;$*y(n))</span><br></pre></td></tr></table></figure>
+<p>其中<code>x(n)</code>是N维水库空间的内部状态；<code>f</code>是一种激励函数，在ESN里是sigmoid；<code>W</code>是N$\times$N维水库矩阵；<code>$W\_{in}$</code>是N$\times$K维输入矩阵；<code>u(n)</code>是K维输入信号；<code>W\_{fb}$</code>是N$\times$L维输出反馈矩阵；<code>y(n)</code>是L维输出信号；一般情况下用<code>z(n) = [x(n);u(n)]</code>表示广义内部状态。</p>
+<p>输出<code>y(n)</code>通过下面公式(2)获得：</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(<span class="number">2</span>) <span class="function"><span class="title">y</span><span class="params">(n)</span></span> = <span class="function"><span class="title">g</span><span class="params">(<span class="variable">$W</span>\_&#123;out&#125;$*z(n)</span></span>)</span><br></pre></td></tr></table></figure>
+<p>其中<code>g</code>是一种激励函数；<code>W\_{out}$</code>是L$\times$(K + N)维的输出矩阵。</p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -186,7 +117,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/markdown/">markdown</a>
+  <span></span> <a href="/tags/ESN/">ESN</a><a href="/tags/LSM/">LSM</a><a href="/tags/Machine-Learning/">Machine Learning</a><a href="/tags/Reservoir-Computing/">Reservoir Computing</a>
   </div>
 
 </div>
@@ -195,7 +126,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://syzhang15.com/2015/10/08/intro_to_markdown/" data-title="markdown tips总结 | nefelibata&#39;s blog" data-tsina="3224061975" class="share clearfix">
+	  <div data-url="http://syzhang15.com/2015/10/22/intro_to_reservoir_computing/" data-title="Reservoir Computing for Time Series | nefelibata&#39;s blog" data-tsina="3224061975" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -208,14 +139,14 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2015/10/22/intro_to_reservoir_computing/" title="Reservoir Computing for Time Series">
-  <strong>上一篇：</strong><br/>
-  <span>
-  Reservoir Computing for Time Series</span>
+
+<div class="next">
+<a href="/2015/10/08/intro_to_markdown/"  title="markdown tips总结">
+ <strong>下一篇：</strong><br/> 
+ <span>markdown tips总结
+</span>
 </a>
 </div>
-
 
 </nav>
 
@@ -227,7 +158,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#标题"><span class="toc-number">1.</span> <span class="toc-text">标题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#粗体和斜体"><span class="toc-number">2.</span> <span class="toc-text">粗体和斜体</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#链接"><span class="toc-number">3.</span> <span class="toc-text">链接</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#图片"><span class="toc-number">4.</span> <span class="toc-text">图片</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#列表"><span class="toc-number">5.</span> <span class="toc-text">列表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#引用"><span class="toc-number">6.</span> <span class="toc-text">引用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#表格"><span class="toc-number">7.</span> <span class="toc-text">表格</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Reservoir_Computing（ESN_&_LSM）"><span class="toc-number">1.</span> <span class="toc-text">Reservoir Computing（ESN & LSM）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ESN（echo_state_network）"><span class="toc-number">1.1.</span> <span class="toc-text">ESN（echo state network）</span></a></li></ol></li></ol>
  
   </div>
 
