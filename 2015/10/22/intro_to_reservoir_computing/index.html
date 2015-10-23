@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>Reservoir Computing for Time Series | nefelibata&#39;s blog</title>
+    <title>Reservoir Computing for Time Series (一) | nefelibata&#39;s blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="Shiyun Zhang">
@@ -13,13 +13,13 @@
     
     <meta name="description" content="这是我大研的课题，Reservoir Computing（水库算法）在时间序列处理中的应用。使用ESN和LSM这两个模型进行时间序列的拟合，并在接下来的部分使用LIBSVM进行分类。第一部分是介绍ESN与LSM两种Reservoir Computing模型。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Reservoir Computing for Time Series">
+<meta property="og:title" content="Reservoir Computing for Time Series (一)">
 <meta property="og:url" content="http://syzhang15.com/2015/10/22/intro_to_reservoir_computing/index.html">
 <meta property="og:site_name" content="nefelibata's blog">
 <meta property="og:description" content="这是我大研的课题，Reservoir Computing（水库算法）在时间序列处理中的应用。使用ESN和LSM这两个模型进行时间序列的拟合，并在接下来的部分使用LIBSVM进行分类。第一部分是介绍ESN与LSM两种Reservoir Computing模型。">
-<meta property="og:updated_time" content="2015-10-23T09:27:04.069Z">
+<meta property="og:updated_time" content="2015-10-23T09:39:48.611Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Reservoir Computing for Time Series">
+<meta name="twitter:title" content="Reservoir Computing for Time Series (一)">
 <meta name="twitter:description" content="这是我大研的课题，Reservoir Computing（水库算法）在时间序列处理中的应用。使用ESN和LSM这两个模型进行时间序列的拟合，并在接下来的部分使用LIBSVM进行分类。第一部分是介绍ESN与LSM两种Reservoir Computing模型。">
 
     
@@ -80,7 +80,7 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2015/10/22/intro_to_reservoir_computing/" title="Reservoir Computing for Time Series" itemprop="url">Reservoir Computing for Time Series</a>
+      <a href="/2015/10/22/intro_to_reservoir_computing/" title="Reservoir Computing for Time Series (一)" itemprop="url">Reservoir Computing for Time Series (一)</a>
   </h1>
   <p class="article-author">By
        
@@ -106,6 +106,7 @@
 <p>ESN和LSM是reservoir computing最常见的两种模型,区别主要是水库内部单元的不同，以及激励函数的不同。</p>
 <h3 id="ESN（echo_state_network）">ESN（echo state network）</h3><h4 id="直观解释">直观解释</h4><p>形象但不准确的理解<code>ESN</code>，可以认为我们有一个种子（raw input data），但并不能了解它更多的信息，我们把它种下去（feed into the reservoir）,让它生根发芽，知道它是什么种子叶子什么形状颜色开不开花（maped into a higher dimension），通过这些特征我们通过简单的判断机制判别出我们想要的种子（a readout mechanism），上述的行为相当于一个训练集（train set），接下来我们再遇见这些种子，就可以通过这种模式依据我们的训练集结果对种子进行处理（test set）。</p>
 <p>当然这只是直观的理解，<code>ESN</code>是有数学上的意义及公式推导的。</p>
+<hr>
 <h4 id="数学推导">数学推导</h4><p>在下面的介绍中，N是水库单元数（reservoir），K是输入信号数（inputs），L是输出信号数（outputs）。</p>
 <p>(1) x(n+1) = f(W<em>x(n) + $W_{in}$</em>u(n+1) + $W_{fb}$*y(n))</p>
 <p>其中<code>x(n)</code>是N维水库空间的内部状态；<code>f</code>是一种激励函数，在ESN里是sigmoid；<code>W</code>是N$\times$N维水库矩阵；$W_{in}$是N$\times$K维输入矩阵；<code>u(n)</code>是K维输入信号；$W_{fb}$是N$\times$L维输出反馈矩阵；<code>y(n)</code>是L维输出信号；一般情况下用<code>z(n) = [x(n);u(n)]</code>表示广义内部状态。</p>
@@ -113,13 +114,15 @@
 <p>(2) y(n) = g($W_{out}$*z(n))</p>
 <p>其中<code>g</code>是一种激励函数；$W_{out}$是L$\times$(K + N)维的输出矩阵。</p>
 <p>输入序列<code>u(1),...,u($n\_{max})</code>在ESN中，产生广义内部状态<code>z(1),...,z($n\_{max})</code>，在训练（train）的过程中，我们有目标输出<code>d(n)</code>作为teacher forcing，定义状态采集矩阵<strong>S</strong>，$n_{max}$$\times$(N+K)维;定义输出采集矩阵<strong>D</strong>，$n_{max}$$\times$L维。</p>
-<p>同时，定义<strong>R</strong> = <strong>$S^{‘}$**</strong>S<strong>为广义内部状态的自关联矩阵，</strong>P<strong> = </strong>$S^{‘}$<strong>**D</strong>为内部状态与目标输出的互关联矩阵。由线性回归的知识，可以得到：</p>
-<p>(3) $W_{out}$ = $(R^{-1}P)^{‘}$ Wiener-Hopf方法。计算速度快。</p>
-<p>(4) $W_{out}$ = $(S^{\dagger}D)^{‘}$ Pseudoinverse方法。计算结果稳定。</p>
+<p>同时，定义<strong>R</strong> = $S^{‘}$S 为广义内部状态的自关联矩阵，<strong>P</strong> = $S^{‘}$D 为内部状态与目标输出的互关联矩阵。由线性回归的知识，可以得到：</p>
+<p>(3) $W_{out}$ = $(R^{-1}P)^{‘}$     Wiener-Hopf方法，优点是计算速度快。</p>
+<p>(4) $W_{out}$ = $(S^{\dagger}D)^{‘}$     Pseudoinverse方法，优点是计算结果稳定。</p>
+<hr>
 <h4 id="一些理解">一些理解</h4><p>ESN的中文翻译是回声状态网络，它的reservoir是一个dynamics的结构，输入信号在水库中不停地激荡，将初始的内部状态覆盖。</p>
 <p>由于是一种自反馈的RNN模型，ESN有一定的短期记忆能力，这一点从公式(2)中也有体现。</p>
 <p>关于ESN具体的搭建过程及实验结果分析，请阅读我的下一篇blog。</p>
 <p>更多关于ESN理论部分的介绍，请看：<a href="http://www.scholarpedia.org/article/Echo_state_network" target="_blank" rel="external">Echo state network</a></p>
+<hr>
 <h3 id="LSM（liquid_state_machine）">LSM（liquid state machine）</h3><p>LSM的整体框架和ESN是一样的，但LSM使用了多种神经元模型，也因此获得了更加强大的计算能力。</p>
 <p>有前辈们编写的<code>CSIM</code>（A neural Circuit SIMulator），里面集成了这些神经元模型，有很多非常方便的tool。</p>
 <p>你可以在 <a href="http://www.lsm.tugraz.at/index.html" target="_blank" rel="external">Neural Micro Circuits</a>里下载这些工具包。</p>
@@ -141,7 +144,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://syzhang15.com/2015/10/22/intro_to_reservoir_computing/" data-title="Reservoir Computing for Time Series | nefelibata&#39;s blog" data-tsina="3224061975" class="share clearfix">
+	  <div data-url="http://syzhang15.com/2015/10/22/intro_to_reservoir_computing/" data-title="Reservoir Computing for Time Series (一) | nefelibata&#39;s blog" data-tsina="3224061975" class="share clearfix">
 	  </div>
 	
 	</div>
