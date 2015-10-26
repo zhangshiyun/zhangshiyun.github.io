@@ -17,7 +17,7 @@
 <meta property="og:url" content="http://syzhang15.com/2015/10/22/intro_to_reservoir_computing/index.html">
 <meta property="og:site_name" content="nefelibata's blog">
 <meta property="og:description" content="这是我大研的课题，Reservoir Computing（水库算法）在时间序列处理中的应用。使用ESN和LSM这两个模型进行时间序列的拟合，并在接下来的部分使用LIBSVM进行分类。第一部分是介绍ESN与LSM两种Reservoir Computing模型。">
-<meta property="og:updated_time" content="2015-10-23T09:39:48.611Z">
+<meta property="og:updated_time" content="2015-10-26T04:14:07.221Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Reservoir Computing for Time Series (一)">
 <meta name="twitter:description" content="这是我大研的课题，Reservoir Computing（水库算法）在时间序列处理中的应用。使用ESN和LSM这两个模型进行时间序列的拟合，并在接下来的部分使用LIBSVM进行分类。第一部分是介绍ESN与LSM两种Reservoir Computing模型。">
@@ -96,11 +96,11 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Reservoir_Computing（ESN_&_LSM）"><span class="toc-number">1.</span> <span class="toc-text">Reservoir Computing（ESN & LSM）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ESN（echo_state_network）"><span class="toc-number">1.1.</span> <span class="toc-text">ESN（echo state network）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#直观解释"><span class="toc-number">1.1.1.</span> <span class="toc-text">直观解释</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#数学推导"><span class="toc-number">1.1.2.</span> <span class="toc-text">数学推导</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#一些理解"><span class="toc-number">1.1.3.</span> <span class="toc-text">一些理解</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LSM（liquid_state_machine）"><span class="toc-number">1.2.</span> <span class="toc-text">LSM（liquid state machine）</span></a></li></ol></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Reservoir_Computing（ESN_&_LSM）"><span class="toc-number">1.</span> <span class="toc-text">Reservoir Computing（ESN & LSM）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ESN（echo_state_network）"><span class="toc-number">1.1.</span> <span class="toc-text">ESN（echo state network）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#直观解释"><span class="toc-number">1.1.1.</span> <span class="toc-text">直观解释</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#数学推导"><span class="toc-number">1.1.2.</span> <span class="toc-text">数学推导</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#而除了$W_{out}$之外的矩阵，在建立ESN的时候已经固定不变，只需对$W_{out}$进行训练得到。"><span class="toc-number">2.</span> <span class="toc-text">而除了$W_{out}$之外的矩阵，在建立ESN的时候已经固定不变，只需对$W_{out}$进行训练得到。</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#一些理解"><span class="toc-number">2.0.1.</span> <span class="toc-text">一些理解</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LSM（liquid_state_machine）"><span class="toc-number">2.1.</span> <span class="toc-text">LSM（liquid state machine）</span></a></li></ol></li></ol>
 		
 		</div>
 		
-		<p>应用<code>ESN</code>（echo state network）在时间序列处理上，已经由 <a href="http://dsxt.ustc.edu.cn/zj_js.asp?zzid=3742" target="_blank" rel="external">陈欢欢教授</a>在2013年完成，详见 <a href="http://staff.ustc.edu.cn/~hchen/papers/KDD2013.pdf" target="_blank" rel="external">Model-based Kernel for Efficient Time Series Analysis</a> 。而我要做的是用<code>LSM</code>（liquid state machine）替代<code>ESN</code>看一下实验结果，这个工作实际上我的两位师兄洪骏远和李阳已经完成了，我只是在他们的指导下将这个过程重复一下。</p>
+		<p>应用<code>ESN</code>（echo state network）在时间序列处理上，已经由 <a href="http://dsxt.ustc.edu.cn/zj_js.asp?zzid=3742" target="_blank" rel="external">陈欢欢教授</a>在2013年发表，详见 <a href="http://staff.ustc.edu.cn/~hchen/papers/KDD2013.pdf" target="_blank" rel="external">Model-based Kernel for Efficient Time Series Analysis</a> 。而我要做的是用<code>LSM</code>（liquid state machine）替代<code>ESN</code>看一下实验结果，这个工作实际上我的两位师兄洪骏远和李阳已经完成了，我只是在他们的指导下将这个过程重复一下。</p>
 <p>这对我来说是一个很棒的学习经历，感谢两位师兄。</p>
 <h2 id="Reservoir_Computing（ESN_&amp;_LSM）">Reservoir Computing（ESN &amp; LSM）</h2><p>Reservoir Computing类似循环神经网络（RNN, recurrent neural networks）机理，它是一种有监督学习的算法。输入信号传输到一个随机的动态系统（即水库reservoir），在里面映射到高维空间，然后我们训练一种readout模式，将水库中的高维状态映射到目标输出。对于不同的输入我们需要调整的只是这种readout模式，而且貌似这个模型的计算能力很强。</p>
 <p>ESN和LSM是reservoir computing最常见的两种模型,区别主要是水库内部单元的不同，以及激励函数的不同。</p>
@@ -115,12 +115,21 @@
 <p>其中<code>g</code>是一种激励函数；$W_{out}$是L$\times$(K + N)维的输出矩阵。</p>
 <p>输入序列<code>u(1),...,u($n\_{max})</code>在ESN中，产生广义内部状态<code>z(1),...,z($n\_{max})</code>，在训练（train）的过程中，我们有目标输出<code>d(n)</code>作为teacher forcing，定义状态采集矩阵<strong>S</strong>，$n_{max}$$\times$(N+K)维;定义输出采集矩阵<strong>D</strong>，$n_{max}$$\times$L维。</p>
 <p>同时，定义<strong>R</strong> = $S^{‘}$S 为广义内部状态的自关联矩阵，<strong>P</strong> = $S^{‘}$D 为内部状态与目标输出的互关联矩阵。由线性回归的知识，可以得到：</p>
-<p>(3) $W_{out}$ = $(R^{-1}P)^{‘}$     Wiener-Hopf方法，优点是计算速度快。</p>
-<p>(4) $W_{out}$ = $(S^{\dagger}D)^{‘}$     Pseudoinverse方法，优点是计算结果稳定。</p>
-<hr>
-<h4 id="一些理解">一些理解</h4><p>ESN的中文翻译是回声状态网络，它的reservoir是一个dynamics的结构，输入信号在水库中不停地激荡，将初始的内部状态覆盖。</p>
-<p>由于是一种自反馈的RNN模型，ESN有一定的短期记忆能力，这一点从公式(2)中也有体现。</p>
-<p>关于ESN具体的搭建过程及实验结果分析，请阅读我的下一篇blog。</p>
+<p>(3) $W_{out}$ = $(R^{-1}P)^{‘}$     这是Wiener-Hopf方法，优点是计算速度快。</p>
+<p>(4) $W_{out}$ = $(S^{\dagger}D)^{‘}$     这是Pseudoinverse方法，优点是计算结果稳定。</p>
+<h2 id="而除了$W_{out}$之外的矩阵，在建立ESN的时候已经固定不变，只需对$W_{out}$进行训练得到。">而除了$W_{out}$之外的矩阵，在建立ESN的时候已经固定不变，只需对$W_{out}$进行训练得到。</h2><h4 id="一些理解">一些理解</h4><p>ESN的中文翻译是回声状态网络，它的reservoir是一个dynamics的递归结构，随机生成，大规模，稀疏连接。输入信号在水库中不停激荡，覆盖内部初始状态。</p>
+<p>一旦确定了reservoir，只有其输出权重$W_{out}$是需要调整的。</p>
+<p>由于是一种自反馈的RNN模型，ESN有一定的短期记忆能力，内部存在延迟因子的反馈连接，可以更好的反映动态系统的特性和演化，这一点从公式(2)中也有体现，</p>
+<p>ESN的核心结构就是它的reservoir，搭建过程见下：</p>
+<ol>
+<li><p>确定水库规模N、水库内部连接矩阵W及W的谱半径，初始化ESN。</p>
+</li>
+<li><p>确定水库输入矩阵$W_{in}$，并用输入激发水库内部状态，水库初始状态可以任意选择。同时也可以加入输出的反馈矩阵$W_{fb}$。</p>
+</li>
+<li><p>进行训练，通过水库状态变量和期望输出之间的线性回归关系得到$W_{out}$。训练过程包括采样阶段（矩阵S和D）和权值计算阶段（公式3和公式4）。</p>
+</li>
+</ol>
+<p>关于ESN有关实验结果分析，请见我的下一篇blog。</p>
 <p>更多关于ESN理论部分的介绍，请看：<a href="http://www.scholarpedia.org/article/Echo_state_network" target="_blank" rel="external">Echo state network</a></p>
 <hr>
 <h3 id="LSM（liquid_state_machine）">LSM（liquid state machine）</h3><p>LSM的整体框架和ESN是一样的，但LSM使用了多种神经元模型，也因此获得了更加强大的计算能力。</p>
@@ -157,6 +166,14 @@
 	
 <nav class="article-nav clearfix">
  
+ <div class="prev" >
+ <a href="/2015/10/24/intro_to_reservoir_computing2/" title="Reservoir Computing for Time Series (二)">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Reservoir Computing for Time Series (二)</span>
+</a>
+</div>
+
 
 <div class="next">
 <a href="/2015/10/08/intro_to_markdown/"  title="markdown tips总结">
@@ -176,7 +193,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Reservoir_Computing（ESN_&_LSM）"><span class="toc-number">1.</span> <span class="toc-text">Reservoir Computing（ESN & LSM）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ESN（echo_state_network）"><span class="toc-number">1.1.</span> <span class="toc-text">ESN（echo state network）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#直观解释"><span class="toc-number">1.1.1.</span> <span class="toc-text">直观解释</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#数学推导"><span class="toc-number">1.1.2.</span> <span class="toc-text">数学推导</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#一些理解"><span class="toc-number">1.1.3.</span> <span class="toc-text">一些理解</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LSM（liquid_state_machine）"><span class="toc-number">1.2.</span> <span class="toc-text">LSM（liquid state machine）</span></a></li></ol></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Reservoir_Computing（ESN_&_LSM）"><span class="toc-number">1.</span> <span class="toc-text">Reservoir Computing（ESN & LSM）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ESN（echo_state_network）"><span class="toc-number">1.1.</span> <span class="toc-text">ESN（echo state network）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#直观解释"><span class="toc-number">1.1.1.</span> <span class="toc-text">直观解释</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#数学推导"><span class="toc-number">1.1.2.</span> <span class="toc-text">数学推导</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#而除了$W_{out}$之外的矩阵，在建立ESN的时候已经固定不变，只需对$W_{out}$进行训练得到。"><span class="toc-number">2.</span> <span class="toc-text">而除了$W_{out}$之外的矩阵，在建立ESN的时候已经固定不变，只需对$W_{out}$进行训练得到。</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#一些理解"><span class="toc-number">2.0.1.</span> <span class="toc-text">一些理解</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LSM（liquid_state_machine）"><span class="toc-number">2.1.</span> <span class="toc-text">LSM（liquid state machine）</span></a></li></ol></li></ol>
  
   </div>
 
@@ -195,19 +212,23 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/Machine-Learning/" title="Machine Learning">Machine Learning<sup>1</sup></a></li>
+				<li><a href="/tags/Machine-Learning/" title="Machine Learning">Machine Learning<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/ESN/" title="ESN">ESN<sup>1</sup></a></li>
+				<li><a href="/tags/ESN/" title="ESN">ESN<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/LSM/" title="LSM">LSM<sup>1</sup></a></li>
+				<li><a href="/tags/LSM/" title="LSM">LSM<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Reservoir-Computing/" title="Reservoir Computing">Reservoir Computing<sup>1</sup></a></li>
+				<li><a href="/tags/Reservoir-Computing/" title="Reservoir Computing">Reservoir Computing<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/SVM/" title="SVM">SVM<sup>1</sup></a></li>
 			
 		
 			
