@@ -4,24 +4,23 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>markdown tips总结 | nefelibata&#39;s blog</title>
+    <title>FIRE：Fast Inertial Relaxation Engine for Minimizing | nefelibata&#39;s blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="Shiyun Zhang">
     
 
     
-    <meta name="description" content="markdown是一种电子邮件风格的标记语言，本文简单介绍一下它的用法。">
+    <meta name="description" content="FIRE(Fast Inertial Relaxation Engine)，带阻尼的快速弛豫算法，2006年的一篇PRL提出的，它可以简单而高效地寻找体系的能量最小态，而且所体现出来的思想很有启发性。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="markdown tips总结">
-<meta property="og:url" content="http://syzhang15.com/2015/10/08/intro_to_markdown/index.html">
+<meta property="og:title" content="FIRE：Fast Inertial Relaxation Engine for Minimizing">
+<meta property="og:url" content="http://syzhang15.com/2016/02/28/FIRE/index.html">
 <meta property="og:site_name" content="nefelibata's blog">
-<meta property="og:description" content="markdown是一种电子邮件风格的标记语言，本文简单介绍一下它的用法。">
-<meta property="og:image" content="http://news.xinhuanet.com/tw/2008-03/25/xin_412030525160179626381.jpg">
-<meta property="og:updated_time" content="2015-10-26T11:26:52.056Z">
+<meta property="og:description" content="FIRE(Fast Inertial Relaxation Engine)，带阻尼的快速弛豫算法，2006年的一篇PRL提出的，它可以简单而高效地寻找体系的能量最小态，而且所体现出来的思想很有启发性。">
+<meta property="og:updated_time" content="2016-02-28T14:12:41.558Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="markdown tips总结">
-<meta name="twitter:description" content="markdown是一种电子邮件风格的标记语言，本文简单介绍一下它的用法。">
+<meta name="twitter:title" content="FIRE：Fast Inertial Relaxation Engine for Minimizing">
+<meta name="twitter:description" content="FIRE(Fast Inertial Relaxation Engine)，带阻尼的快速弛豫算法，2006年的一篇PRL提出的，它可以简单而高效地寻找体系的能量最小态，而且所体现出来的思想很有启发性。">
 
     
     <link rel="alternative" href="/atom.xml" title="nefelibata&#39;s blog" type="application/atom+xml">
@@ -81,14 +80,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2015/10/08/intro_to_markdown/" title="markdown tips总结" itemprop="url">markdown tips总结</a>
+      <a href="/2016/02/28/FIRE/" title="FIRE：Fast Inertial Relaxation Engine for Minimizing" itemprop="url">FIRE：Fast Inertial Relaxation Engine for Minimizing</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="Shiyun Zhang" target="_blank" itemprop="author">Shiyun Zhang</a>
 		
   <p class="article-time">
-    <time datetime="2015-10-08T12:35:12.000Z" itemprop="datePublished"> 发表于 2015-10-08</time>
+    <time datetime="2016-02-28T09:50:30.000Z" itemprop="datePublished"> 发表于 2016-02-28</time>
     
   </p>
 </header>
@@ -97,87 +96,40 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#标题"><span class="toc-number">1.</span> <span class="toc-text">标题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#粗体和斜体"><span class="toc-number">2.</span> <span class="toc-text">粗体和斜体</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#链接"><span class="toc-number">3.</span> <span class="toc-text">链接</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#图片"><span class="toc-number">4.</span> <span class="toc-text">图片</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#列表"><span class="toc-number">5.</span> <span class="toc-text">列表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#引用"><span class="toc-number">6.</span> <span class="toc-text">引用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#表格"><span class="toc-number">7.</span> <span class="toc-text">表格</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#MD硬球模拟的一般步骤"><span class="toc-number">1.</span> <span class="toc-text">MD硬球模拟的一般步骤</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#FIRE与能量最小化"><span class="toc-number">2.</span> <span class="toc-text">FIRE与能量最小化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#FIRE的联系与启发"><span class="toc-number">3.</span> <span class="toc-text">FIRE的联系与启发</span></a></li></ol>
 		
 		</div>
 		
-		<p>我搭建个人博客所用的Hexo，支持使用markdown写作，google了解了一下，觉得是一个很好用也很简单的标记语言，看了几篇教程，整理一下。</p>
-<hr>
-<h2 id="标题">标题</h2><p>Markdown 中，标题只需要在文本前面加上<code>#</code>即可。同理，你还可以增加二级标题、三级标题、四级标题、五级标题和六级标题，总共六级，只需要增加<code>#</code>即可，标题字号相应降低。</p>
-<figure class="highlight vala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">## 二级标题</span></span><br><span class="line"><span class="preprocessor">### 三级标题</span></span><br><span class="line"><span class="preprocessor">#### 四级标题</span></span><br><span class="line"><span class="preprocessor">##### 五级标题</span></span><br><span class="line"><span class="preprocessor">###### 六级标题</span></span><br></pre></td></tr></table></figure>
-<hr>
-<h2 id="粗体和斜体">粗体和斜体</h2><p><strong>加粗</strong>是通过 <code>**加粗**</code> 来实现。</p>
-<p> <em>斜体</em> 是通过 <code>*斜体*</code> 来实现。</p>
-<hr>
-<h2 id="链接">链接</h2><p>字体链接如 <a href="http://syzhang15.com">my blog</a> 格式:</p>
-<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[<span class="link_label">my blog</span>](<span class="link_url">http://syzhang15.com</span>)</span><br></pre></td></tr></table></figure>
-<hr>
-<h2 id="图片">图片</h2><p>图片插入和字体链接类似，前面加<code>!</code>，如:</p>
-<p><img src="http://news.xinhuanet.com/tw/2008-03/25/xin_412030525160179626381.jpg" alt="一张熊猫的图片">`。</p>
-<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">![<span class="link_label">一张熊猫的图片</span>](<span class="link_url">http://news.xinhuanet.com/tw/2008-03/25/xin_412030525160179626381.jpg</span>)`。</span><br></pre></td></tr></table></figure>
-<hr>
-<h2 id="列表">列表</h2><p>只需要在列表的每一项前面加<code>*</code>号，<code>*</code>号和文字之间注意要留空格：</p>
-<p>我接下来要做的事情：</p>
-<ul>
-<li>吃饭</li>
-<li>睡觉</li>
-<li>揍胖子</li>
-</ul>
-<figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">我接下来要做的事情：</span><br><span class="line"><span class="bullet">* </span>吃饭</span><br><span class="line"><span class="bullet">* </span>睡觉</span><br><span class="line"><span class="bullet">* </span>揍胖子</span><br></pre></td></tr></table></figure>
-<p>如果想要有数字序号的列表，只要把<code>*</code>改成相应的<code>1.</code>，<code>2.</code>等就好了，注意数字后面要有<code>.</code>。</p>
+		<p>FIRE算法是Erik Bitzek等人基于MD（分子动力学，molecular dynamics）提出。MC（蒙特卡罗，monte carlo）和MD是科学计算常用的两种计算系综平均的采样方法，<br>MC基于概率性统计，随机模拟，局限于平衡态热力学量等静态性质的计算，不能预测体系的动力学特性；MD是一种确定性方法，基于牛顿方程，可以计算动力学性质。最近听同学说在一个做KMC（Kinetic Monte Carlo）<br>的组里帮忙，不知道KMC有什么黑科技。</p>
+<h2 id="MD硬球模拟的一般步骤">MD硬球模拟的一般步骤</h2><p>硬球软球的区别在于粒子之间的相互作用势能是否为距离的连续函数，模拟步骤大概分为初始化、趋于平衡、求结果三步，具体如下：</p>
 <ol>
-<li>第一节</li>
+<li>确定系统的状态参数：粒子数N，温度T，体积分数$\phi$等等。</li>
+<li>确定粒子的初始位置坐标{$r<em>{i}(0)$,i = 1,…,N}和初始速度{$v</em>{i}(0)$,i = 1,…,N}。</li>
+<li>构造N(N-1)/2个球对的碰撞时间列表。</li>
+<li>对下列步骤进行循环。</li>
+<li>从碰撞时间表中决定下一个碰撞的时间差dt和碰撞球对i和j。</li>
+<li>计算所有粒子在dt时间后的坐标，需要的话计入周期性边界条件。</li>
+<li>计算碰撞粒子的新速度。</li>
+<li>更新碰撞时间列表。</li>
 </ol>
+<p>在相空间看体系趋于平衡的过程，就是使轨迹从任意给定的初始点运动到最可能的区域——平衡态区域——的过程。或者简单理解为，使得体系能量最小化。当满足我们的某一个停止依据（能量或力），停止迭代，<br>结束时刻的位形认为是局部势能最小的位形。</p>
+<h2 id="FIRE与能量最小化">FIRE与能量最小化</h2><p>在FIRE提出之前，Steepest Descent(SD),Conjugate Gradient(CG),Quasi-Newton(QN),Truncated Newton(TN)等都是进行能量最小化的方法，和它们比起来，FIRE和quenching类似，是使用<br>欧拉积分步运行带阻尼的的分子动力学方法，需要定义时间步。</p>
+<p>算法的优劣判据体现在：a)计算速度。b)内存的占据。c)roubustness。d)复杂程度和简便性。据说FIRE在这些上完爆了其他算法。</p>
+<p>FIRE的作者给出了一个对其算法形象生动的描述：skier在一个高低起伏的雪山谷滑雪，想从当前位置到山谷的最低点，这有无数的路线，他依据以下原则来尽可能快的抵达：</p>
 <ul>
-<li>第二节(你不用敲 “2”，自动就有了）<ul>
-<li>第一小节（推荐每层次缩进四个空格）<ul>
-<li>小小节 1</li>
-<li>小小节 2</li>
+<li>如果上坡了，就停下来。</li>
+<li>每隔一段时间dt，重新调整。如果走得正确就增加dt，不确定就减少dt，dt有最大限制。</li>
+<li>很陡，惯性很大，跟着它走，惯性说了算。</li>
 </ul>
-</li>
-<li>第二小节</li>
-</ul>
-</li>
-</ul>
-<hr>
-<h2 id="引用">引用</h2><p>有时想要引用别人的一段话，只要在引用的文字前加<code>&gt;</code>，连续多行添加<code>&gt;</code>了的文字，将变成一个引用的区块。比如这样写：</p>
-<p>Albert Einstein:</p>
-<blockquote>
-<p>A person who never made a mistake never tried anything new.<br>Everything should be made as simple as possible, but not simpler.</p>
-</blockquote>
-<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Albert Einstein:</span><br><span class="line">&gt; A person who never made <span class="operator">a</span> mistake never tried anything <span class="built_in">new</span>.</span><br><span class="line">&gt; Everything should be made <span class="keyword">as</span> simple <span class="keyword">as</span> possible, but <span class="operator">not</span> simpler.</span><br></pre></td></tr></table></figure>
-<hr>
-<h2 id="表格">表格</h2><table>
-<thead>
-<tr>
-<th>Tables</th>
-<th style="text-align:center">Are</th>
-<th style="text-align:right">Cool</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>col 3 is</td>
-<td style="text-align:center">right-aligned</td>
-<td style="text-align:right">$1600</td>
-</tr>
-<tr>
-<td>col 2 is</td>
-<td style="text-align:center">centered</td>
-<td style="text-align:right">$12</td>
-</tr>
-<tr>
-<td>zebra stripes</td>
-<td style="text-align:center">are neat</td>
-<td style="text-align:right">$1</td>
-</tr>
-</tbody>
-</table>
-<figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">|<span class="string"> Tables        </span>|<span class="string"> Are           </span>|<span class="string"> Cool  </span>|</span><br><span class="line">|<span class="string"> ------------- </span>|<span class="string">:-------------:</span>|<span class="string"> -----:</span>|</span><br><span class="line">|<span class="string"> col 3 is      </span>|<span class="string"> right-aligned </span>|<span class="string"> $1600 </span>|</span><br><span class="line">|<span class="string"> col 2 is      </span>|<span class="string"> centered      </span>|<span class="string">   $12 </span>|</span><br><span class="line">|<span class="string"> zebra stripes </span>|<span class="string"> are neat      </span>|<span class="string">    $1 </span>|</span><br></pre></td></tr></table></figure>
-<hr>
-<p>一些推荐：</p>
-<p>可以在线练习markdown的网站： <a href="http://jianshu.com" target="_blank" rel="external">简书</a></p>
-<p>一篇很详细的教程： <a href="http://wowubuntu.com/markdown" target="_blank" rel="external">Ubuntu-markdown</a></p>
+<p>具体的算法描述如下：</p>
+<p>MD：calculate x，<strong>F</strong>=-$\nabla$E(<strong>x</strong>), and v using any common MD integrator; check for convergence</p>
+<p>F1: calculate P = <strong>F</strong>$\centerdot$<strong>v</strong></p>
+<p>F2: set <strong>v</strong> $\to$ (1-a)$\centerdot$<strong>v</strong> + a$\centerdot$<strong>F</strong>/$\vert$<strong>F</strong>$\vert$$\centerdot$$\vert$<strong>v</strong>$\vert$</p>
+<p>F3: if P&gt;0 and the number of steps since P was negative is larger than Nmin, increase the time step dt $\to$ min(dt$\centerdot$$f<em>{inc}$,dtmax) and decrease a $\to$ a$\centerdot$$f</em>{a}$</p>
+<p>F4: if P&lt;0, decrease time step dt $\to$ dt$\centerdot$$f<em>{dec}$, freeze the system v $\to$ 0 and set a back to $a</em>{start}$</p>
+<p>F5: return to MD</p>
+<h2 id="FIRE的联系与启发">FIRE的联系与启发</h2><p>FIRE的关键两点是提出了速度修正和可调整的时间步长的概念。能量最小化就是系统摆脱初始条件的影响，达到平衡状态。在F2步骤中，速度的修正方式和我之前在回声状态网络ESN里所接触到的调整系统状态的<br>公式是一样的，这种修正方式看来是普适的，以后系统需要洗刷初始条件进行调整应该都可以用这样的形式。他对时间步长概念的建立，以及之后的调整上，方法简单粗暴而高效，值得好好学习。</p>
+<p>我在学习FIRE的时候，一直和之前计算物理课上接触到的Creutz等人提出的微正则系统的MC方法联系在一起，也许基于MD的方法是从那里面得到的启发。他不使用随机数来确定某步MC移动是否接受，而是用以下方式实现。<br>将所考虑的体系附加一个外部自由度，成为demon，demon在体系中游荡，和体系交换能量来改变体系的力学变量。我觉得FIRE的处理方式和他很点相似。</p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -185,13 +137,13 @@
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/note/">note</a>
+  <a class="article-category-link" href="/categories/Computational-Physics/">Computational Physics</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/markdown/">markdown</a>
+  <span></span> <a href="/tags/MD/">MD</a><a href="/tags/Minimizing-Energy/">Minimizing Energy</a>
   </div>
 
 </div>
@@ -200,7 +152,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://syzhang15.com/2015/10/08/intro_to_markdown/" data-title="markdown tips总结 | nefelibata&#39;s blog" data-tsina="3224061975" class="share clearfix">
+	  <div data-url="http://syzhang15.com/2016/02/28/FIRE/" data-title="FIRE：Fast Inertial Relaxation Engine for Minimizing | nefelibata&#39;s blog" data-tsina="3224061975" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -213,20 +165,20 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2015/10/22/intro_to_reservoir_computing/" title="Reservoir Computing for Time Series (一)">
-  <strong>上一篇：</strong><br/>
-  <span>
-  Reservoir Computing for Time Series (一)</span>
+
+<div class="next">
+<a href="/2015/12/31/first_year_reborn/"  title="First year, hello world">
+ <strong>下一篇：</strong><br/> 
+ <span>First year, hello world
+</span>
 </a>
 </div>
-
 
 </nav>
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2015/10/08/intro_to_markdown/" data-title="markdown tips总结" data-url="http://syzhang15.com/2015/10/08/intro_to_markdown/"></div>
+	<div class="ds-thread" data-thread-key="2016/02/28/FIRE/" data-title="FIRE：Fast Inertial Relaxation Engine for Minimizing" data-url="http://syzhang15.com/2016/02/28/FIRE/"></div>
 </section>
 
 
@@ -236,7 +188,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#标题"><span class="toc-number">1.</span> <span class="toc-text">标题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#粗体和斜体"><span class="toc-number">2.</span> <span class="toc-text">粗体和斜体</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#链接"><span class="toc-number">3.</span> <span class="toc-text">链接</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#图片"><span class="toc-number">4.</span> <span class="toc-text">图片</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#列表"><span class="toc-number">5.</span> <span class="toc-text">列表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#引用"><span class="toc-number">6.</span> <span class="toc-text">引用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#表格"><span class="toc-number">7.</span> <span class="toc-text">表格</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#MD硬球模拟的一般步骤"><span class="toc-number">1.</span> <span class="toc-text">MD硬球模拟的一般步骤</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#FIRE与能量最小化"><span class="toc-number">2.</span> <span class="toc-text">FIRE与能量最小化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#FIRE的联系与启发"><span class="toc-number">3.</span> <span class="toc-text">FIRE的联系与启发</span></a></li></ol>
  
   </div>
 
