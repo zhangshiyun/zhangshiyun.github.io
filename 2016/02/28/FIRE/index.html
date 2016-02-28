@@ -17,7 +17,7 @@
 <meta property="og:url" content="http://syzhang15.com/2016/02/28/FIRE/index.html">
 <meta property="og:site_name" content="nefelibata's blog">
 <meta property="og:description" content="FIRE(Fast Inertial Relaxation Engine)，带阻尼的快速弛豫算法，2006年的一篇PRL提出的，它可以简单而高效地寻找体系的能量最小态，而且所体现出来的思想很有启发性。">
-<meta property="og:updated_time" content="2016-02-28T14:12:41.558Z">
+<meta property="og:updated_time" content="2016-02-28T14:53:11.824Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="FIRE：Fast Inertial Relaxation Engine for Minimizing">
 <meta name="twitter:description" content="FIRE(Fast Inertial Relaxation Engine)，带阻尼的快速弛豫算法，2006年的一篇PRL提出的，它可以简单而高效地寻找体系的能量最小态，而且所体现出来的思想很有启发性。">
@@ -100,11 +100,11 @@
 		
 		</div>
 		
-		<p>FIRE算法是Erik Bitzek等人基于MD（分子动力学，molecular dynamics）提出。MC（蒙特卡罗，monte carlo）和MD是科学计算常用的两种计算系综平均的采样方法，<br>MC基于概率性统计，随机模拟，局限于平衡态热力学量等静态性质的计算，不能预测体系的动力学特性；MD是一种确定性方法，基于牛顿方程，可以计算动力学性质。最近听同学说在一个做KMC（Kinetic Monte Carlo）<br>的组里帮忙，不知道KMC有什么黑科技。</p>
+		<p>FIRE算法是Erik Bitzek等人基于MD（分子动力学，molecular dynamics）提出。MC（蒙特卡罗，monte carlo）和MD是科学计算常用的两种计算系综平均的采样方法，MC基于概率性统计，随机模拟，局限于平衡态热力学量等静态性质的计算，不能预测体系的动力学特性；MD是一种确定性方法，基于牛顿方程，可以计算动力学性质。最近听同学说在一个做KMC（Kinetic Monte Carlo）的组里帮忙，不知道KMC有什么黑科技。</p>
 <h2 id="MD硬球模拟的一般步骤">MD硬球模拟的一般步骤</h2><p>硬球软球的区别在于粒子之间的相互作用势能是否为距离的连续函数，模拟步骤大概分为初始化、趋于平衡、求结果三步，具体如下：</p>
 <ol>
 <li>确定系统的状态参数：粒子数N，温度T，体积分数$\phi$等等。</li>
-<li>确定粒子的初始位置坐标{$r<em>{i}(0)$,i = 1,…,N}和初始速度{$v</em>{i}(0)$,i = 1,…,N}。</li>
+<li>确定粒子的初始位置坐标{$r_{i}(0)$,i = 1,…,N},初始速度{$v_{i}(0)$,i = 1,…,N}。</li>
 <li>构造N(N-1)/2个球对的碰撞时间列表。</li>
 <li>对下列步骤进行循环。</li>
 <li>从碰撞时间表中决定下一个碰撞的时间差dt和碰撞球对i和j。</li>
@@ -112,9 +112,8 @@
 <li>计算碰撞粒子的新速度。</li>
 <li>更新碰撞时间列表。</li>
 </ol>
-<p>在相空间看体系趋于平衡的过程，就是使轨迹从任意给定的初始点运动到最可能的区域——平衡态区域——的过程。或者简单理解为，使得体系能量最小化。当满足我们的某一个停止依据（能量或力），停止迭代，<br>结束时刻的位形认为是局部势能最小的位形。</p>
-<h2 id="FIRE与能量最小化">FIRE与能量最小化</h2><p>在FIRE提出之前，Steepest Descent(SD),Conjugate Gradient(CG),Quasi-Newton(QN),Truncated Newton(TN)等都是进行能量最小化的方法，和它们比起来，FIRE和quenching类似，是使用<br>欧拉积分步运行带阻尼的的分子动力学方法，需要定义时间步。</p>
-<p>算法的优劣判据体现在：a)计算速度。b)内存的占据。c)roubustness。d)复杂程度和简便性。据说FIRE在这些上完爆了其他算法。</p>
+<p>在相空间看体系趋于平衡的过程，就是使轨迹从任意给定的初始点运动到最可能的区域——平衡态区域——的过程。或者简单理解为，使得体系能量最小化。当满足我们的某一个停止依据（能量或力），停止迭代，结束时刻的位形认为是局部势能最小的位形。</p>
+<h2 id="FIRE与能量最小化">FIRE与能量最小化</h2><p>在FIRE提出之前，Steepest Descent(SD),Conjugate Gradient(CG),Quasi-Newton(QN),Truncated Newton(TN)等都是进行能量最小化的方法，和它们比起来，FIRE和quenching类似，是使用欧拉积分步运行带阻尼的的分子动力学方法。算法的优劣判据体现在：a)计算速度。b)内存的占据。c)roubustness。d)复杂程度和简便性。据说FIRE在这些上完爆了其他算法。</p>
 <p>FIRE的作者给出了一个对其算法形象生动的描述：skier在一个高低起伏的雪山谷滑雪，想从当前位置到山谷的最低点，这有无数的路线，他依据以下原则来尽可能快的抵达：</p>
 <ul>
 <li>如果上坡了，就停下来。</li>
@@ -123,13 +122,13 @@
 </ul>
 <p>具体的算法描述如下：</p>
 <p>MD：calculate x，<strong>F</strong>=-$\nabla$E(<strong>x</strong>), and v using any common MD integrator; check for convergence</p>
-<p>F1: calculate P = <strong>F</strong>$\centerdot$<strong>v</strong></p>
-<p>F2: set <strong>v</strong> $\to$ (1-a)$\centerdot$<strong>v</strong> + a$\centerdot$<strong>F</strong>/$\vert$<strong>F</strong>$\vert$$\centerdot$$\vert$<strong>v</strong>$\vert$</p>
-<p>F3: if P&gt;0 and the number of steps since P was negative is larger than Nmin, increase the time step dt $\to$ min(dt$\centerdot$$f<em>{inc}$,dtmax) and decrease a $\to$ a$\centerdot$$f</em>{a}$</p>
-<p>F4: if P&lt;0, decrease time step dt $\to$ dt$\centerdot$$f<em>{dec}$, freeze the system v $\to$ 0 and set a back to $a</em>{start}$</p>
+<p>F1: calculate P = <strong>F</strong>$\cdot$<strong>v</strong></p>
+<p>F2: set <strong>v</strong> $\to$ (1-a)$\cdot$<strong>v</strong> + a$\cdot$<strong>F</strong>/$\vert$<strong>F</strong>$\vert$$\centerdot$$\vert$<strong>v</strong>$\vert$</p>
+<p>F3: if P&gt;0 and the number of steps since P was negative is larger than Nmin, increase the time step dt $\to$ min(dt$\cdot$$f_{inc}$,dtmax) and decrease a $\to$ a$\cdot$$f_{a}$</p>
+<p>F4: if P&lt;0, decrease time step dt $\to$ dt$\cdot$$f_{dec}$, freeze the system v $\to$ 0 and set a back to $a_{start}$</p>
 <p>F5: return to MD</p>
-<h2 id="FIRE的联系与启发">FIRE的联系与启发</h2><p>FIRE的关键两点是提出了速度修正和可调整的时间步长的概念。能量最小化就是系统摆脱初始条件的影响，达到平衡状态。在F2步骤中，速度的修正方式和我之前在回声状态网络ESN里所接触到的调整系统状态的<br>公式是一样的，这种修正方式看来是普适的，以后系统需要洗刷初始条件进行调整应该都可以用这样的形式。他对时间步长概念的建立，以及之后的调整上，方法简单粗暴而高效，值得好好学习。</p>
-<p>我在学习FIRE的时候，一直和之前计算物理课上接触到的Creutz等人提出的微正则系统的MC方法联系在一起，也许基于MD的方法是从那里面得到的启发。他不使用随机数来确定某步MC移动是否接受，而是用以下方式实现。<br>将所考虑的体系附加一个外部自由度，成为demon，demon在体系中游荡，和体系交换能量来改变体系的力学变量。我觉得FIRE的处理方式和他很点相似。</p>
+<h2 id="FIRE的联系与启发">FIRE的联系与启发</h2><p>FIRE的关键两点是提出了速度修正和可调整的时间步长的概念。<br>在F2步骤中，速度的修正方式和我之前在回声状态网络ESN里所接触到的调整系统状态的公式是一样的，这种修正方式看来是普适的，以后系统需要洗刷初始条件进行调整应该都可以用这样的形式。<br>他对时间步长概念的建立，以及之后的调整上，方法简单粗暴而高效，值得好好学习。</p>
+<p>我在学习FIRE的时候，一直和之前计算物理课上接触到的Creutz等人提出的微正则系统的MC方法联系在一起，也许基于MD的方法是从那里面得到的启发。他不使用随机数来确定某步MC移动是否接受，而是用以下方式实现。将所考虑的体系附加一个外部自由度，成为demon，demon在体系中游荡，和体系交换能量来改变体系的力学变量。我觉得FIRE的处理方式和他很点相似。</p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -143,7 +142,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/MD/">MD</a><a href="/tags/Minimizing-Energy/">Minimizing Energy</a>
+  <span></span> <a href="/tags/FIRE/">FIRE</a><a href="/tags/MD-Molecular-Dynamics/">MD(Molecular Dynamics)</a><a href="/tags/Minimizing-Energy/">Minimizing Energy</a>
   </div>
 
 </div>
@@ -230,10 +229,6 @@
 			
 		
 			
-				<li><a href="/tags/ESN/" title="ESN">ESN<sup>2</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/LSM/" title="LSM">LSM<sup>2</sup></a></li>
 			
 		
@@ -242,11 +237,15 @@
 			
 		
 			
+				<li><a href="/tags/ESN/" title="ESN">ESN<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/SVM/" title="SVM">SVM<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/markdown/" title="markdown">markdown<sup>1</sup></a></li>
+				<li><a href="/tags/MD-Molecular-Dynamics/" title="MD(Molecular Dynamics)">MD(Molecular Dynamics)<sup>1</sup></a></li>
 			
 		
 			
@@ -258,7 +257,13 @@
 			
 		
 			
-				<li><a href="/tags/MD/" title="MD">MD<sup>1</sup></a></li>
+				<li><a href="/tags/FIRE/" title="FIRE">FIRE<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/markdown/" title="markdown">markdown<sup>1</sup></a></li>
+			
+		
 			
 		
 		</ul>
