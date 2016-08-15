@@ -4,24 +4,23 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>Reservoir Computing for Time Series (二) | nefelibata&#39;s blog</title>
+    <title>linux下lammps安装编译 | nefelibata&#39;s blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="Shiyun Zhang">
     
 
     
-    <meta name="description" content="这是我大研的课题，Reservoir Computing（水库算法）在时间序列处理中的应用。使用ESN和LSM这两个模型进行时间序列的拟合，并在接下来的部分使用LIBSVM进行分类。第二部分介绍我进行的实验及结果。">
+    <meta name="description" content="LAMMPS(&quot;Large-scale Atomic/Molecular Parallel Simulator&quot;)，是一套分子动力学模拟的开源软件。最近实验室用它算一些东西，靠着师兄指导我在虚拟机上安装编译了一下lammps，作此记录。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Reservoir Computing for Time Series (二)">
-<meta property="og:url" content="http://syzhang15.com/2015/10/24/intro_to_reservoir_computing2/index.html">
+<meta property="og:title" content="linux下lammps安装编译">
+<meta property="og:url" content="http://syzhang15.com/2016/08/15/Lammps_set/index.html">
 <meta property="og:site_name" content="nefelibata's blog">
-<meta property="og:description" content="这是我大研的课题，Reservoir Computing（水库算法）在时间序列处理中的应用。使用ESN和LSM这两个模型进行时间序列的拟合，并在接下来的部分使用LIBSVM进行分类。第二部分介绍我进行的实验及结果。">
-<meta property="og:image" content="http://7xntda.com1.z0.glb.clouddn.com/CSIM_RV.png">
-<meta property="og:updated_time" content="2015-10-26T11:25:23.032Z">
+<meta property="og:description" content="LAMMPS(&quot;Large-scale Atomic/Molecular Parallel Simulator&quot;)，是一套分子动力学模拟的开源软件。最近实验室用它算一些东西，靠着师兄指导我在虚拟机上安装编译了一下lammps，作此记录。">
+<meta property="og:updated_time" content="2016-08-15T14:43:00.159Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Reservoir Computing for Time Series (二)">
-<meta name="twitter:description" content="这是我大研的课题，Reservoir Computing（水库算法）在时间序列处理中的应用。使用ESN和LSM这两个模型进行时间序列的拟合，并在接下来的部分使用LIBSVM进行分类。第二部分介绍我进行的实验及结果。">
+<meta name="twitter:title" content="linux下lammps安装编译">
+<meta name="twitter:description" content="LAMMPS(&quot;Large-scale Atomic/Molecular Parallel Simulator&quot;)，是一套分子动力学模拟的开源软件。最近实验室用它算一些东西，靠着师兄指导我在虚拟机上安装编译了一下lammps，作此记录。">
 
     
     <link rel="alternative" href="/atom.xml" title="nefelibata&#39;s blog" type="application/atom+xml">
@@ -81,14 +80,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2015/10/24/intro_to_reservoir_computing2/" title="Reservoir Computing for Time Series (二)" itemprop="url">Reservoir Computing for Time Series (二)</a>
+      <a href="/2016/08/15/Lammps_set/" title="linux下lammps安装编译" itemprop="url">linux下lammps安装编译</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="Shiyun Zhang" target="_blank" itemprop="author">Shiyun Zhang</a>
 		
   <p class="article-time">
-    <time datetime="2015-10-24T01:59:41.000Z" itemprop="datePublished"> 发表于 2015-10-24</time>
+    <time datetime="2016-08-15T09:50:30.000Z" itemprop="datePublished"> 发表于 2016-08-15</time>
     
   </p>
 </header>
@@ -97,28 +96,35 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#ESN的时间序列拟合"><span class="toc-number">1.</span> <span class="toc-text">ESN的时间序列拟合</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#用CSIM的命令编写LSM"><span class="toc-number">2.</span> <span class="toc-text">用CSIM的命令编写LSM</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SVM分类"><span class="toc-number">3.</span> <span class="toc-text">SVM分类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#未完成的部分"><span class="toc-number">4.</span> <span class="toc-text">未完成的部分</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前期依赖环境准备"><span class="toc-number">1.</span> <span class="toc-text">前期依赖环境准备</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#安装gcc和g++编译器"><span class="toc-number">1.1.</span> <span class="toc-text">安装gcc和g++编译器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#openmpi安装"><span class="toc-number">1.2.</span> <span class="toc-text">openmpi安装</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#下载文件解压"><span class="toc-number">1.2.1.</span> <span class="toc-text">下载文件解压</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#运行configure进行相关配置"><span class="toc-number">1.2.2.</span> <span class="toc-text">运行configure进行相关配置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#编译与安装"><span class="toc-number">1.2.3.</span> <span class="toc-text">编译与安装</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#环境配置"><span class="toc-number">1.2.4.</span> <span class="toc-text">环境配置</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#lammps主程序编译安装"><span class="toc-number">2.</span> <span class="toc-text">lammps主程序编译安装</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#选定安装包"><span class="toc-number">2.1.</span> <span class="toc-text">选定安装包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#修改makefile"><span class="toc-number">2.2.</span> <span class="toc-text">修改makefile</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#编译serial"><span class="toc-number">2.2.1.</span> <span class="toc-text">编译serial</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#编译mpi"><span class="toc-number">2.2.2.</span> <span class="toc-text">编译mpi</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#后续"><span class="toc-number">3.</span> <span class="toc-text">后续</span></a></li></ol>
 		
 		</div>
 		
-		<p>上一篇简单的介绍了ESN与LSM的一些背景，事实上它们很多数学包括物理上的意义我都没有深入了解，尤其是LSM的工具包CSIM，里面各种基于仿生计算的神经元模型，运用这些可以在计算机视觉、声音识别等方面有非常奇妙的效果。如果想有一个更加深入系统的理解的话，建议参考相关的文献资料。</p>
-<p>下面是我的实验内容。大部分是基于两位师兄的工作上。</p>
-<h2 id="ESN的时间序列拟合">ESN的时间序列拟合</h2><p>以mackey-glass混沌序列为期望输出，设置学习参数，水库参数，同时为了避免过度拟合（overfitting），在计算$W_{out}$时加入岭回归因子调整，经过训练得到$W_{out}$，并在零输入状态下得到期望输出。以期望输出与理论值的MSE(mean square error)作为判断拟合性能的依据。</p>
-<p>调整参数（水库单元数N，泄漏率a，谱半径sr，岭回归因子reg），观察它们对拟合效果即MSE的影响。</p>
-<p>从实验结果来看，N、a的影响是很小而且作用不单调的，sr一般小于1才能得到较稳定的结果，根据数据集的不同reg的可调范围是很大的。</p>
-<p>附上代码：</p>
-<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">% 读入输入数据</span></span><br><span class="line">data = load(<span class="string">'MackeyGlass_t17.txt'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">% 设置学习的次数和步长</span></span><br><span class="line">trainLen = <span class="number">1000</span>;</span><br><span class="line">testLen = <span class="number">1000</span>;</span><br><span class="line">initLen = <span class="number">100</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">% 设置ESN的参数</span></span><br><span class="line">N = <span class="number">100</span>; <span class="comment">%水库单元数</span></span><br><span class="line">inSize = <span class="number">1</span>;</span><br><span class="line">outSize = <span class="number">1</span>;</span><br><span class="line">a = <span class="number">0.05</span>; <span class="comment">%泄漏率</span></span><br><span class="line"></span><br><span class="line">Win = <span class="built_in">rand</span>(N,inSize+<span class="number">1</span>);</span><br><span class="line">Wfb = <span class="built_in">rand</span>(N,outSize+<span class="number">1</span>);</span><br><span class="line">W = <span class="built_in">rand</span>(N);</span><br><span class="line">r = max(<span class="built_in">abs</span>(eig(W))); <span class="comment">%谱半径</span></span><br><span class="line">W = W.*(<span class="number">0.7</span>/r);</span><br><span class="line"></span><br><span class="line"><span class="comment">% 选择输入输出样本</span></span><br><span class="line">Z = <span class="built_in">zeros</span>(<span class="number">1</span>+inSize+N,trainLen-initLen); <span class="comment">% 初始广义状态</span></span><br><span class="line">dY = data(initLen+<span class="number">2</span>:trainLen+<span class="number">1</span>)<span class="operator">'</span>; <span class="comment">% 期望输出</span></span><br><span class="line">x = <span class="built_in">zeros</span>(N,<span class="number">1</span>); <span class="comment">% 初始状态</span></span><br><span class="line"><span class="keyword">for</span> t=<span class="number">1</span>:trainLen</span><br><span class="line">    u = data(t);</span><br><span class="line">    <span class="keyword">if</span> t &lt;= initLen+<span class="number">1</span></span><br><span class="line">        x = (<span class="number">1</span>-a)*x + a*<span class="built_in">tanh</span>(W*x + Win*<span class="matrix">[<span class="number">1</span>;u]</span>);</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        x = (<span class="number">1</span>-a)*x + a*<span class="built_in">tanh</span>(W*x + Win*<span class="matrix">[<span class="number">1</span>;u]</span> +Wfb*<span class="matrix">[<span class="number">1</span>;data(t)]</span>);</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">if</span> t &gt; initLen</span><br><span class="line">        Z(:,t-initLen) = <span class="matrix">[<span class="number">1</span>;u;x]</span>;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="comment">% 训练Wout</span></span><br><span class="line">reg = <span class="number">1e-7</span>;</span><br><span class="line">Z_T = Z<span class="operator">'</span>;</span><br><span class="line">Wout = dY*Z_T * inv(Z*Z_T + reg*<span class="built_in">eye</span>(<span class="number">1</span>+inSize+N));</span><br><span class="line"></span><br><span class="line"><span class="comment">% 运行ESN</span></span><br><span class="line">Y = <span class="built_in">zeros</span>(outSize,testLen);</span><br><span class="line">u = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">for</span> t = <span class="number">1</span>:testLen </span><br><span class="line">	x = (<span class="number">1</span>-a)*x + a*<span class="built_in">tanh</span>( Win*<span class="matrix">[<span class="number">1</span>;u]</span> + W*x + Wfb*<span class="matrix">[<span class="number">1</span>;u]</span>);  <span class="comment">% 这里再加上Wfb似乎没有意义</span></span><br><span class="line">	y = Wout*<span class="matrix">[<span class="number">1</span>;u;x]</span>;</span><br><span class="line">	Y(:,t) = y;</span><br><span class="line">	u = y;</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
-<h2 id="用CSIM的命令编写LSM">用CSIM的命令编写LSM</h2><p>师兄将KDD那篇论文的代码给了我，原程序是以ESN为框架，我在其上修改，用LSM代替ESN。</p>
-<p>思路如下：</p>
-<center><br>    <p><img src="http://7xntda.com1.z0.glb.clouddn.com/CSIM_RV.png" align="center"></p><br></center>
-
-<h2 id="SVM分类">SVM分类</h2><p>KDD论文里时间序列的处理主要是对数据集的分类精度和cpu time进行观察，用的是libsvm的工具包，关于svm的应用我会在下一个时间深入学习。</p>
-<p>它是用libsvm对不同数据集训练得到的$W_{out}$进行分类。LSM替代ESN后的分类实验，我还是放在了KDD程序的框架里。实验的初始数据是处理好的各种数据集。</p>
-<p>从实验的结果来看，LSM的分类精度在某些序列上精度相比ESN是更高的，但是对于个别数据集程序跑到一半不动了，并不知道是什么原因。</p>
-<h2 id="未完成的部分">未完成的部分</h2><p>LSM本身在脉冲信号的处理中更常见，而且觉得似乎脉冲信号比起模拟信号可操作性及携带信息方面更有优势。</p>
-<p>之前的数据集都是模拟信号，在csim的网站上有learning-tool，里面的demo是一个spike classification，我在这部分的实验中并没有用它的tool，而是尝试着用csim命令，使用处理脉冲的神经元模型改写一下之前的代码，但在判断脉冲序列拟合优劣的部分还没做完，师兄告诉我用MSE是不行的。</p>
-<p>关于进一步的实验，在视频流数据中的处理，师兄给了一个思路，是将视频流数据提取一些脉冲序列，对脉冲序列训练分类处理，最后实现一种可以预测的功能。</p>
-<p>很遗憾，这部分的工作最后搁浅了。</p>
+		<p>lammps是一套开源、免费的分子动力学模拟并行计算软件，更多关于其介绍移步<a href="http://lammps.sandia.gov" target="_blank" rel="external">官网</a>。</p>
+<p>我的安装环境是Fedora23，本地虚拟机下进行的测试。</p>
+<hr>
+<h2 id="前期依赖环境准备">前期依赖环境准备</h2><p>lammps下有非常多的package，一些package是用不到的，但安装起来需要很多依赖，像画图模块（libjpeg or libpng）、结构分析（voro++）等等。根据个人需要请安装编译相关模块。这里我以mpi并行库（openmpi）为例测试。</p>
+<h3 id="安装gcc和g++编译器">安装gcc和g++编译器</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo dnf <span class="operator"><span class="keyword">install</span> gcc</span><br><span class="line">sudo dnf <span class="keyword">install</span> gcc-<span class="keyword">g</span>++</span></span><br></pre></td></tr></table></figure>
+<h3 id="openmpi安装">openmpi安装</h3><p>我使用的版本是openmpi2.0，<a href="http://open-mpi.org/software/ompi/v2.0" target="_blank" rel="external">下载地址</a>。</p>
+<h4 id="下载文件解压">下载文件解压</h4><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ tar xvfz openmpi-<span class="number">2.0</span><span class="class">.tar</span><span class="class">.gz</span></span><br></pre></td></tr></table></figure>
+<h4 id="运行configure进行相关配置">运行configure进行相关配置</h4><figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$ </span>./configure --prefix=<span class="regexp">/home/</span>&lt;<span class="constant">USERNAME</span>&gt;<span class="regexp">/openmpi  /</span><span class="regexp">/参数部分是预设安装目录</span></span><br></pre></td></tr></table></figure>
+<h4 id="编译与安装">编译与安装</h4><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">make</span> -j <span class="number">4</span> all  <span class="comment">//会花一段时间，我在虚拟机下有点慢</span></span><br><span class="line">$ <span class="built_in">make</span> install</span><br></pre></td></tr></table></figure>
+<h4 id="环境配置">环境配置</h4><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="keyword">cd</span> /etc/<span class="keyword">profile</span>.<span class="keyword">d</span></span><br><span class="line">$ <span class="keyword">vim</span> openmpi.<span class="keyword">sh</span></span><br></pre></td></tr></table></figure>
+<p>在sh文件里输入：<br><figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">PATH=/home/&lt;USERNAME&gt;/openmpi/bin:<span class="variable">$PATH</span></span><br><span class="line">LD_LIBRARY_PATH=/home/&lt;USERNAME&gt;/openmpi/lib:<span class="variable">$LD</span>_LIBRARY_PATH</span><br></pre></td></tr></table></figure></p>
+<p>在shell下输入mpirun测试是否安装成功。</p>
+<hr>
+<h2 id="lammps主程序编译安装">lammps主程序编译安装</h2><h3 id="选定安装包">选定安装包</h3><p>我下载的lammps版本是<a href="http://lammps.sandia.gov/tars/lammps-stable.tar.gz" target="_blank" rel="external">这个稳定版</a>。</p>
+<h3 id="修改makefile">修改makefile</h3><p>解压后进入src文件夹里，有个makefile文件，一个是.mpi关于并行的，另一个是.serial关于串行单核的。</p>
+<h4 id="编译serial">编译serial</h4><p>serial是关于串行单核，先去src/STUBS文件夹下make，使用该目录下的伪MPI库，欺骗一下机器，接着在src文件夹下输入</p>
+<figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$ </span>make serial</span><br></pre></td></tr></table></figure>
+<h4 id="编译mpi">编译mpi</h4><p>mpi的makefile有很多地方需要根据具体情况修改，这里以mpiC编译器为例。</p>
+<p>在shell下输入mpi，双击tab键，在列出的命令下查找mpi的C++编译器名称，是<code>mpic++</code>，还是<code>mpicxx</code>。在Makefile.mpi文件里修改。</p>
+<p>mpi编译文件里的注释有更详细的介绍，也建议google其他有关makefile的博客。</p>
+<p>修改好之后，输入</p>
+<figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$ </span>make mpi</span><br></pre></td></tr></table></figure>
+<p>编译完成。</p>
+<h2 id="后续">后续</h2><p>lammps有很多package，很赞，另外也可以自己添加新的代码，进行编译。对了，它还可以作为python的一个库来调用。</p>
+<p>我暂时不用lammps做事情，用到了再看。</p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -126,13 +132,13 @@
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/Computer-Science/">Computer Science</a>
+  <a class="article-category-link" href="/categories/Computational-Physics/">Computational Physics</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/ESN/">ESN</a><a href="/tags/LSM/">LSM</a><a href="/tags/Machine-Learning/">Machine Learning</a><a href="/tags/Reservoir-Computing/">Reservoir Computing</a><a href="/tags/SVM/">SVM</a>
+  <span></span> <a href="/tags/Lammps/">Lammps</a><a href="/tags/MPI/">MPI</a>
   </div>
 
 </div>
@@ -141,7 +147,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://syzhang15.com/2015/10/24/intro_to_reservoir_computing2/" data-title="Reservoir Computing for Time Series (二) | nefelibata&#39;s blog" data-tsina="3224061975" class="share clearfix">
+	  <div data-url="http://syzhang15.com/2016/08/15/Lammps_set/" data-title="linux下lammps安装编译 | nefelibata&#39;s blog" data-tsina="3224061975" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -154,19 +160,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2015/12/31/first_year_reborn/" title="First year, hello world">
-  <strong>上一篇：</strong><br/>
-  <span>
-  First year, hello world</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2015/10/22/intro_to_reservoir_computing/"  title="Reservoir Computing for Time Series (一)">
+<a href="/2016/02/28/FIRE/"  title="FIRE：Fast Inertial Relaxation Engine for Minimizing">
  <strong>下一篇：</strong><br/> 
- <span>Reservoir Computing for Time Series (一)
+ <span>FIRE：Fast Inertial Relaxation Engine for Minimizing
 </span>
 </a>
 </div>
@@ -175,7 +173,7 @@
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2015/10/24/intro_to_reservoir_computing2/" data-title="Reservoir Computing for Time Series (二)" data-url="http://syzhang15.com/2015/10/24/intro_to_reservoir_computing2/"></div>
+	<div class="ds-thread" data-thread-key="2016/08/15/Lammps_set/" data-title="linux下lammps安装编译" data-url="http://syzhang15.com/2016/08/15/Lammps_set/"></div>
 </section>
 
 
@@ -185,7 +183,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#ESN的时间序列拟合"><span class="toc-number">1.</span> <span class="toc-text">ESN的时间序列拟合</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#用CSIM的命令编写LSM"><span class="toc-number">2.</span> <span class="toc-text">用CSIM的命令编写LSM</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SVM分类"><span class="toc-number">3.</span> <span class="toc-text">SVM分类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#未完成的部分"><span class="toc-number">4.</span> <span class="toc-text">未完成的部分</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前期依赖环境准备"><span class="toc-number">1.</span> <span class="toc-text">前期依赖环境准备</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#安装gcc和g++编译器"><span class="toc-number">1.1.</span> <span class="toc-text">安装gcc和g++编译器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#openmpi安装"><span class="toc-number">1.2.</span> <span class="toc-text">openmpi安装</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#下载文件解压"><span class="toc-number">1.2.1.</span> <span class="toc-text">下载文件解压</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#运行configure进行相关配置"><span class="toc-number">1.2.2.</span> <span class="toc-text">运行configure进行相关配置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#编译与安装"><span class="toc-number">1.2.3.</span> <span class="toc-text">编译与安装</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#环境配置"><span class="toc-number">1.2.4.</span> <span class="toc-text">环境配置</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#lammps主程序编译安装"><span class="toc-number">2.</span> <span class="toc-text">lammps主程序编译安装</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#选定安装包"><span class="toc-number">2.1.</span> <span class="toc-text">选定安装包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#修改makefile"><span class="toc-number">2.2.</span> <span class="toc-text">修改makefile</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#编译serial"><span class="toc-number">2.2.1.</span> <span class="toc-text">编译serial</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#编译mpi"><span class="toc-number">2.2.2.</span> <span class="toc-text">编译mpi</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#后续"><span class="toc-number">3.</span> <span class="toc-text">后续</span></a></li></ol>
  
   </div>
 
